@@ -236,5 +236,66 @@
                 "5fc4693ece699fdb"
             ]
         ]
+    },
+    {
+        "id": "dabde30bcbd2a04b",
+        "type": "sqlite",
+        "z": "0da6ddbdcfa7458f",
+        "mydb": "3d78b677.5d2c8a",
+        "sqlquery": "fixed",
+        "sql": "SELECT * FROM ptl",
+        "name": "Read the data ",
+        "x": 380,
+        "y": 680,
+        "wires": [
+            [
+                "686f91cc77689fbb"
+            ]
+        ]
+    },
+    {
+        "id": "5e0dbd8dd8d91d77",
+        "type": "inject",
+        "z": "0da6ddbdcfa7458f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 680,
+        "wires": [
+            [
+                "dabde30bcbd2a04b"
+            ]
+        ]
+    },
+    {
+        "id": "686f91cc77689fbb",
+        "type": "debug",
+        "z": "0da6ddbdcfa7458f",
+        "name": "debug 14",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 680,
+        "wires": []
     }
 ]
