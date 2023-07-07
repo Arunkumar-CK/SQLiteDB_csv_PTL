@@ -8,6 +8,150 @@
         "env": []
     },
     {
+        "id": "3d78b677.5d2c8a",
+        "type": "sqlitedb",
+        "db": "C:\\Datalog\\database.db",
+        "mode": "RWC"
+    },
+    {
+        "id": "26eb42ad1aa1e1d4",
+        "type": "ui_group",
+        "name": "Audio Switch",
+        "tab": "a53c82b00b63514e",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "a53c82b00b63514e",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "90f6a2e461324b7e",
+        "type": "eth-ip endpoint",
+        "address": "192.168.2.252",
+        "slot": "0",
+        "cycletime": "100",
+        "name": "AB PLC",
+        "vartable": {
+            "": {
+                "WMS_To_Plc_Msg.CommandType": {
+                    "type": "DINT"
+                },
+                "WMS_To_Plc_Msg.FromX": {
+                    "type": "DINT"
+                },
+                "WMS_To_Plc_Msg.FromY": {
+                    "type": "DINT"
+                },
+                "WMS_To_Plc_Msg.FromZ": {
+                    "type": "DINT"
+                },
+                "WMS_To_Plc_Msg.rRequestId": {
+                    "type": ""
+                },
+                "WMS_To_Plc_Msg.ToX": {
+                    "type": "DINT"
+                },
+                "WMS_To_Plc_Msg.ToY": {
+                    "type": "DINT"
+                },
+                "WMS_To_Plc_Msg.ToZ": {
+                    "type": "DINT"
+                },
+                "WMS_To_Plc_Msg.sRequestId": {
+                    "type": ""
+                },
+                "WMS_To_Plc_Msg.BinId": {
+                    "type": ""
+                },
+                "WMS_To_Plc_Msg.pRequestId": {
+                    "type": ""
+                },
+                "WMS_To_Plc_Msg.SkuId": {
+                    "type": "DINT"
+                },
+                "WMS_To_Plc_Msg.PickQty": {
+                    "type": "DINT"
+                },
+                "Plc_To_WMS_Msg.rRequestId": {
+                    "type": ""
+                },
+                "Plc_To_WMS_Msg.sRequestId": {
+                    "type": ""
+                },
+                "Plc_To_WMS_Msg.pRequestId": {
+                    "type": ""
+                },
+                "Plc_To_Gateway_Msg_Id": {
+                    "type": "DINT"
+                },
+                "Gateway_To_Plc_Msg_Id": {
+                    "type": "DINT"
+                },
+                "Gateway_To_Plc_rRequest_Id_Ack": {
+                    "type": ""
+                },
+                "Gateway_To_Plc_sRequest_Id_Ack": {
+                    "type": ""
+                },
+                "Gateway_To_Plc_pRequest_Id_Ack": {
+                    "type": ""
+                },
+                "Bot1_Storage_Error": {
+                    "type": "BOOL"
+                },
+                "Bot2_Storage_Error": {
+                    "type": "BOOL"
+                },
+                "Machine_Reset_ON": {
+                    "type": "BOOL"
+                },
+                "Enable_Task_Handling": {
+                    "type": "BOOL"
+                },
+                "FlushFIFO_Data": {
+                    "type": "BOOL"
+                },
+                "Cmnd_Startup": {
+                    "type": "BOOL"
+                },
+                "StartUp_Sequence_Number": {
+                    "type": "INT"
+                },
+                "Mover_ID[1].Mover_Running_Seq": {
+                    "type": "DINT"
+                },
+                "Mover_ID[2].Mover_Running_Seq": {
+                    "type": "DINT"
+                },
+                "Mover_ID[1].ForkBot.Input.Single_Left_Storage_Done": {
+                    "type": "BOOL"
+                },
+                "Mover_ID[1].ForkBot.Input.Double_Left_Retrieval_Done": {
+                    "type": "BOOL"
+                },
+                "Mover_ID[2].ForkBot.Input.Single_Left_Storage_Done": {
+                    "type": "BOOL"
+                },
+                "Mover_ID[2].ForkBot.Input.Double_Left_Retrieval_Done": {
+                    "type": "BOOL"
+                },
+                "GatewayMessageSequence_Number": {
+                    "type": "INT"
+                },
+                "Enable_Queue": {
+                    "type": "BOOL"
+                }
+            }
+        }
+    },
+    {
         "id": "bcaca83e5f8e1a6a",
         "type": "inject",
         "z": "0da6ddbdcfa7458f",
@@ -32,7 +176,7 @@
         "y": 660,
         "wires": [
             [
-                "5fc4693ece699fdb"
+                "cdf8ec3f7099ad2d"
             ]
         ]
     },
@@ -48,8 +192,24 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 360,
+        "x": 520,
         "y": 660,
         "wires": []
+    },
+    {
+        "id": "cdf8ec3f7099ad2d",
+        "type": "sqlite",
+        "z": "0da6ddbdcfa7458f",
+        "mydb": "3d78b677.5d2c8a",
+        "sqlquery": "fixed",
+        "sql": "CREATE TABLE IF NOT EXISTS ptl (id INTEGER PRIMARY KEY, col1 TEXT, col2 TEXT, col3 TEXT);",
+        "name": "create",
+        "x": 350,
+        "y": 660,
+        "wires": [
+            [
+                "5fc4693ece699fdb"
+            ]
+        ]
     }
 ]
