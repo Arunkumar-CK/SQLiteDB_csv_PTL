@@ -310,7 +310,8 @@
         "y": 980,
         "wires": [
             [
-                "6e2133802b2fc9f7"
+                "6e2133802b2fc9f7",
+                "93afda224e8bb47d"
             ]
         ]
     },
@@ -410,7 +411,8 @@
         "y": 980,
         "wires": [
             [
-                "9967f094d5ef8554"
+                "9967f094d5ef8554",
+                "661e6a09772303e0"
             ]
         ]
     },
@@ -419,7 +421,7 @@
         "type": "debug",
         "z": "0da6ddbdcfa7458f",
         "name": "Acknowledgement",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -427,8 +429,100 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1310,
-        "y": 980,
+        "x": 1330,
+        "y": 940,
         "wires": []
+    },
+    {
+        "id": "93afda224e8bb47d",
+        "type": "switch",
+        "z": "0da6ddbdcfa7458f",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "empty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 690,
+        "y": 900,
+        "wires": [
+            [
+                "946ad102f7abac43"
+            ]
+        ]
+    },
+    {
+        "id": "946ad102f7abac43",
+        "type": "function",
+        "z": "0da6ddbdcfa7458f",
+        "name": "Send error Acknowledgement",
+        "func": "msg.payload = \"Transfer aborted. Database is empty.\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 900,
+        "wires": [
+            [
+                "07e951e378b7c7fe"
+            ]
+        ]
+    },
+    {
+        "id": "07e951e378b7c7fe",
+        "type": "debug",
+        "z": "0da6ddbdcfa7458f",
+        "name": "Acknowledgement",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1170,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "18b7da6057d40dc1",
+        "type": "sqlite",
+        "z": "0da6ddbdcfa7458f",
+        "mydb": "3d78b677.5d2c8a",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Delete",
+        "x": 1470,
+        "y": 1000,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "661e6a09772303e0",
+        "type": "function",
+        "z": "0da6ddbdcfa7458f",
+        "name": "Build Query",
+        "func": "msg.topic = \"DELETE FROM ptl\\nWHERE ROWID = (SELECT ROWID FROM ptl\\nLIMIT 1);\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1310,
+        "y": 1000,
+        "wires": [
+            [
+                "18b7da6057d40dc1"
+            ]
+        ]
     }
 ]
