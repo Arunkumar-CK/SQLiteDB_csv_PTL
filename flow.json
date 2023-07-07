@@ -152,35 +152,6 @@
         }
     },
     {
-        "id": "bcaca83e5f8e1a6a",
-        "type": "inject",
-        "z": "0da6ddbdcfa7458f",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 180,
-        "y": 660,
-        "wires": [
-            [
-                "cdf8ec3f7099ad2d"
-            ]
-        ]
-    },
-    {
         "id": "5fc4693ece699fdb",
         "type": "debug",
         "z": "0da6ddbdcfa7458f",
@@ -192,8 +163,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 520,
-        "y": 660,
+        "x": 900,
+        "y": 800,
         "wires": []
     },
     {
@@ -204,8 +175,62 @@
         "sqlquery": "fixed",
         "sql": "CREATE TABLE IF NOT EXISTS ptl (id INTEGER PRIMARY KEY, col1 TEXT, col2 TEXT, col3 TEXT);",
         "name": "create",
-        "x": 350,
-        "y": 660,
+        "x": 370,
+        "y": 800,
+        "wires": [
+            [
+                "08f2b70f2836533a"
+            ]
+        ]
+    },
+    {
+        "id": "4f39815261a8400f",
+        "type": "inject",
+        "z": "0da6ddbdcfa7458f",
+        "name": "Generate and Inject Data",
+        "props": [],
+        "repeat": "10",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 160,
+        "y": 800,
+        "wires": [
+            [
+                "cdf8ec3f7099ad2d"
+            ]
+        ]
+    },
+    {
+        "id": "08f2b70f2836533a",
+        "type": "function",
+        "z": "0da6ddbdcfa7458f",
+        "name": "Prepare random data",
+        "func": "var tableName = 'ptl';\nif (!flow.get('counter')) {\n    flow.set('counter', 0);\n}\n\nvar counter = flow.get('counter') + 1;\nflow.set('counter', counter);\n\nvar characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789012345678901234567890123456789012345678901234567890123456789';\nvar str5 = '', str1 = '', str2 = '', str3 = '', str4 = '', rrequest = '', srequest = '';\nvar binid ='BPTC02-37-0-1-3'\nfor (var i = 0; i < 8; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str1 += characters.charAt(randomIndex);\n}\n\nfor (var i = 0; i < 4; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str2 += characters.charAt(randomIndex);\n}\n\nfor (var i = 0; i < 4; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str3 += characters.charAt(randomIndex);\n}\n\nfor (var i = 0; i < 4; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str4 += characters.charAt(randomIndex);\n}\n\nfor (var i = 0; i < 12; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str5 += characters.charAt(randomIndex);\n}\nrrequest = str1 + '-' + str2 + '-' + str3 + '-' + str4 + '-' + str5;\n\nstr1 = str2 = str3 = str4 = str5=''\n\nfor (var i = 0; i < 8; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str1 += characters.charAt(randomIndex);\n}\n\nfor (var i = 0; i < 4; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str2 += characters.charAt(randomIndex);\n}\n\nfor (var i = 0; i < 4; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str3 += characters.charAt(randomIndex);\n}\n\nfor (var i = 0; i < 4; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str4 += characters.charAt(randomIndex);\n}\n\nfor (var i = 0; i < 12; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str5 += characters.charAt(randomIndex);\n}\nsrequest = str1 + '-' + str2 + '-' + str3 + '-' + str4 + '-' + str5;\n\n\nvar insertQuery = `INSERT INTO ${tableName} (id,col1,col2,col3) VALUES ('${counter}', '${binid}', '${rrequest}', '${srequest}')`;\n\nmsg.topic = insertQuery;\nmsg.payload=\"\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 800,
+        "wires": [
+            [
+                "9e7a5c296c2392af"
+            ]
+        ]
+    },
+    {
+        "id": "9e7a5c296c2392af",
+        "type": "sqlite",
+        "z": "0da6ddbdcfa7458f",
+        "mydb": "3d78b677.5d2c8a",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Insert Database",
+        "x": 740,
+        "y": 800,
         "wires": [
             [
                 "5fc4693ece699fdb"
