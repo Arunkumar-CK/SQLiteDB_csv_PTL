@@ -163,7 +163,7 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 900,
+        "x": 920,
         "y": 800,
         "wires": []
     },
@@ -296,6 +296,77 @@
         "statusType": "auto",
         "x": 600,
         "y": 680,
+        "wires": []
+    },
+    {
+        "id": "aacdbacb7d4c80a2",
+        "type": "sqlite",
+        "z": "0da6ddbdcfa7458f",
+        "mydb": "3d78b677.5d2c8a",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Read SQL Database",
+        "x": 480,
+        "y": 980,
+        "wires": [
+            [
+                "cb764e2143b2cb29"
+            ]
+        ]
+    },
+    {
+        "id": "3d88957b6e830ddc",
+        "type": "function",
+        "z": "0da6ddbdcfa7458f",
+        "name": "Set SQL Query",
+        "func": "msg.topic = 'SELECT * FROM ptl LIMIT 1';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 265,
+        "y": 980,
+        "wires": [
+            [
+                "aacdbacb7d4c80a2"
+            ]
+        ]
+    },
+    {
+        "id": "a35f6e948ce72953",
+        "type": "inject",
+        "z": "0da6ddbdcfa7458f",
+        "name": "Trigger",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 95,
+        "y": 980,
+        "wires": [
+            [
+                "3d88957b6e830ddc"
+            ]
+        ]
+    },
+    {
+        "id": "cb764e2143b2cb29",
+        "type": "debug",
+        "z": "0da6ddbdcfa7458f",
+        "name": "debug 15",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 980,
         "wires": []
     }
 ]
