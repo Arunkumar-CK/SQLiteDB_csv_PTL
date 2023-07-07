@@ -8,6 +8,14 @@
         "env": []
     },
     {
+        "id": "2bda75e7f2f7a442",
+        "type": "tab",
+        "label": "Flow 5",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "3d78b677.5d2c8a",
         "type": "sqlitedb",
         "db": "C:\\Datalog\\database.db",
@@ -392,7 +400,8 @@
         "y": 980,
         "wires": [
             [
-                "80be837764525128"
+                "80be837764525128",
+                "0e6bc200b09c7a7d"
             ]
         ]
     },
@@ -523,6 +532,702 @@
             [
                 "18b7da6057d40dc1"
             ]
+        ]
+    },
+    {
+        "id": "0e6bc200b09c7a7d",
+        "type": "function",
+        "z": "0da6ddbdcfa7458f",
+        "name": "Data transfer",
+        "func": "var data = msg.payload.split(',');\nmsg.topic = data[1] + ',' + data[2] + ',' + data[3];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1030,
+        "y": 1120,
+        "wires": [
+            [
+                "051a73ac06314ce2"
+            ]
+        ]
+    },
+    {
+        "id": "051a73ac06314ce2",
+        "type": "function",
+        "z": "0da6ddbdcfa7458f",
+        "name": "Login Function",
+        "func": "msg.url = \"https://www.voodoodevices.com/api/user/login/\";\nmsg.method = \"POST\";\nmsg.headers = {\n    \"content-type\": \"application/xml\",\n    \"accept\": \"application/xml\"\n};\nmsg.payload = `\n<item>\n  <username>girish.b@cartesiankinetics.com</username>\n  <password>Spirit1.heart</password>\n</item>\n`;\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1220,
+        "y": 1120,
+        "wires": [
+            [
+                "2f96b26b089142e1"
+            ]
+        ]
+    },
+    {
+        "id": "2f96b26b089142e1",
+        "type": "http request",
+        "z": "0da6ddbdcfa7458f",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1410,
+        "y": 1120,
+        "wires": [
+            [
+                "8f7bc09c98e986ec"
+            ]
+        ]
+    },
+    {
+        "id": "8f7bc09c98e986ec",
+        "type": "xml",
+        "z": "0da6ddbdcfa7458f",
+        "name": "Parse XML",
+        "property": "payload",
+        "attr": "",
+        "chr": "",
+        "x": 1590,
+        "y": 1120,
+        "wires": [
+            [
+                "c810789fa1a309b7",
+                "7a6d0b0b285f1090"
+            ]
+        ]
+    },
+    {
+        "id": "c810789fa1a309b7",
+        "type": "function",
+        "z": "0da6ddbdcfa7458f",
+        "name": "Device Command",
+        "func": "msg.url = \"https://www.voodoodevices.com/api/device/DD8F5D:B775CB/\";\nmsg.method = \"POST\";\nmsg.headers = {\n    \"Content-Type\": \"application/json\",\n    \"Accept\": \"*/*\",\n    \"Referer\": \"https://www.voodoodevices.com/\",\n    \"x-csrf-token\": msg.payload.root.token,\n    \"Cookie\": \"csrftoken=\"+msg.payload.root.token[0]+\"; sessionid=\"+msg.payload.root.sessid[0]\n};\nvar data = msg.topic.split(',');\nmsg.payload = {\n    \"command\": \"flash\",\n    \"seconds\": \"6\",\n   // \"sound\": \"15,c5,4\",\n    \"line1\": data[0],\n    \"line2\": data[1],\n    \"line3\": data[2],\n    \n   //\"statica\": \"Hello\",\n   //\"staticb\": \"There2\",\n   //\"staticc\": \"\\\\ictop\",\n   //\"staticd\": \"\\\\qrmyspecialcode\"\n};\nmsg.topic='';\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1790,
+        "y": 1120,
+        "wires": [
+            [
+                "d4d95accb151fa67"
+            ]
+        ]
+    },
+    {
+        "id": "d4d95accb151fa67",
+        "type": "http request",
+        "z": "0da6ddbdcfa7458f",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1990,
+        "y": 1120,
+        "wires": [
+            [
+                "a451bec1af828a1c",
+                "dca31a67936ee93f"
+            ]
+        ]
+    },
+    {
+        "id": "7a6d0b0b285f1090",
+        "type": "debug",
+        "z": "0da6ddbdcfa7458f",
+        "name": "debug 15",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "topic",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1780,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "dca31a67936ee93f",
+        "type": "debug",
+        "z": "0da6ddbdcfa7458f",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2170,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "a451bec1af828a1c",
+        "type": "http response",
+        "z": "0da6ddbdcfa7458f",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 2170,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "63fcaa55dd79dc3e",
+        "type": "sqlite",
+        "z": "2bda75e7f2f7a442",
+        "mydb": "3d78b677.5d2c8a",
+        "sqlquery": "fixed",
+        "sql": "SELECT * FROM ptl",
+        "name": "Read the data ",
+        "x": 340,
+        "y": 80,
+        "wires": [
+            [
+                "0f1b0102c8e7366c"
+            ]
+        ]
+    },
+    {
+        "id": "ef524687e8d6f8cd",
+        "type": "inject",
+        "z": "2bda75e7f2f7a442",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 80,
+        "wires": [
+            [
+                "63fcaa55dd79dc3e"
+            ]
+        ]
+    },
+    {
+        "id": "0f1b0102c8e7366c",
+        "type": "debug",
+        "z": "2bda75e7f2f7a442",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "bfa3cb56b3959be6",
+        "type": "sqlite",
+        "z": "2bda75e7f2f7a442",
+        "mydb": "3d78b677.5d2c8a",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Insert Database",
+        "x": 660,
+        "y": 280,
+        "wires": [
+            [
+                "c0bef0df4f62176d"
+            ]
+        ]
+    },
+    {
+        "id": "c0bef0df4f62176d",
+        "type": "debug",
+        "z": "2bda75e7f2f7a442",
+        "name": "debug 13",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "d405f7227edfb442",
+        "type": "function",
+        "z": "2bda75e7f2f7a442",
+        "name": "Prepare random data",
+        "func": "var tableName = 'ptl';\nif (!flow.get('counter')) {\n    flow.set('counter', 0);\n}\n\nvar counter = flow.get('counter') + 1;\nflow.set('counter', counter);\n\nvar characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789012345678901234567890123456789012345678901234567890123456789';\nvar str5 = '', str1 = '', str2 = '', str3 = '', str4 = '', rrequest = '', srequest = '';\nvar binid ='BPTC02-37-0-1-3'\nfor (var i = 0; i < 8; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str1 += characters.charAt(randomIndex);\n}\n\nfor (var i = 0; i < 4; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str2 += characters.charAt(randomIndex);\n}\n\nfor (var i = 0; i < 4; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str3 += characters.charAt(randomIndex);\n}\n\nfor (var i = 0; i < 4; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str4 += characters.charAt(randomIndex);\n}\n\nfor (var i = 0; i < 12; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str5 += characters.charAt(randomIndex);\n}\nrrequest = str1 + '-' + str2 + '-' + str3 + '-' + str4 + '-' + str5;\n\nstr1 = str2 = str3 = str4 = str5=''\n\nfor (var i = 0; i < 8; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str1 += characters.charAt(randomIndex);\n}\n\nfor (var i = 0; i < 4; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str2 += characters.charAt(randomIndex);\n}\n\nfor (var i = 0; i < 4; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str3 += characters.charAt(randomIndex);\n}\n\nfor (var i = 0; i < 4; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str4 += characters.charAt(randomIndex);\n}\n\nfor (var i = 0; i < 12; i++) {\n    var randomIndex = Math.floor(Math.random() * characters.length);\n    str5 += characters.charAt(randomIndex);\n}\nsrequest = str1 + '-' + str2 + '-' + str3 + '-' + str4 + '-' + str5;\n\n\nvar insertQuery = `INSERT INTO ${tableName} (id,col1,col2,col3) VALUES ('${counter}', '${binid}', '${rrequest}', '${srequest}')`;\n\nmsg.topic = insertQuery;\nmsg.payload=\"\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 280,
+        "wires": [
+            [
+                "bfa3cb56b3959be6"
+            ]
+        ]
+    },
+    {
+        "id": "30e19e8b40137d0c",
+        "type": "inject",
+        "z": "2bda75e7f2f7a442",
+        "name": "Generate and Inject Data",
+        "props": [],
+        "repeat": "10",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 180,
+        "y": 280,
+        "wires": [
+            [
+                "d405f7227edfb442"
+            ]
+        ]
+    },
+    {
+        "id": "0077b0fe2ff335f3",
+        "type": "debug",
+        "z": "2bda75e7f2f7a442",
+        "name": "Acknowledgement",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1310,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "c0c77017a72251fc",
+        "type": "csv",
+        "z": "2bda75e7f2f7a442",
+        "name": "CSV",
+        "sep": ",",
+        "hdrin": false,
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": false,
+        "include_null_values": false,
+        "x": 670,
+        "y": 460,
+        "wires": [
+            [
+                "4ac999760d905eef"
+            ]
+        ]
+    },
+    {
+        "id": "4ac999760d905eef",
+        "type": "file",
+        "z": "2bda75e7f2f7a442",
+        "name": "Write to CSV",
+        "filename": "D:\\Node red\\SQLite DB to csv\\Files\\CSVfile.csv",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "utf8",
+        "x": 825,
+        "y": 460,
+        "wires": [
+            [
+                "1b7cde0c0f411220",
+                "7af404794f095505"
+            ]
+        ]
+    },
+    {
+        "id": "2c9cda34ce893399",
+        "type": "inject",
+        "z": "2bda75e7f2f7a442",
+        "name": "Trigger",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 90,
+        "y": 460,
+        "wires": [
+            [
+                "2ce253a66e0367c5"
+            ]
+        ]
+    },
+    {
+        "id": "2ce253a66e0367c5",
+        "type": "function",
+        "z": "2bda75e7f2f7a442",
+        "name": "Set SQL Query",
+        "func": "msg.topic = 'SELECT * FROM ptl LIMIT 1';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 460,
+        "wires": [
+            [
+                "14737052277db62c"
+            ]
+        ]
+    },
+    {
+        "id": "14737052277db62c",
+        "type": "sqlite",
+        "z": "2bda75e7f2f7a442",
+        "mydb": "3d78b677.5d2c8a",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Read SQL Database",
+        "x": 475,
+        "y": 460,
+        "wires": [
+            [
+                "c0c77017a72251fc",
+                "10f75b8610b9d549"
+            ]
+        ]
+    },
+    {
+        "id": "1b7cde0c0f411220",
+        "type": "function",
+        "z": "2bda75e7f2f7a442",
+        "name": "Send Acknowledgement",
+        "func": "msg.payload = \"Transfer completed. Row data has been transferred to the CSV file.\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 460,
+        "wires": [
+            [
+                "0077b0fe2ff335f3",
+                "af909fd6d7006cdb"
+            ]
+        ]
+    },
+    {
+        "id": "10f75b8610b9d549",
+        "type": "switch",
+        "z": "2bda75e7f2f7a442",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "empty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 690,
+        "y": 360,
+        "wires": [
+            [
+                "eb879bc3d67bf1cd"
+            ]
+        ]
+    },
+    {
+        "id": "74f8909b87961f31",
+        "type": "debug",
+        "z": "2bda75e7f2f7a442",
+        "name": "Acknowledgement",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1170,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "eb879bc3d67bf1cd",
+        "type": "function",
+        "z": "2bda75e7f2f7a442",
+        "name": "Send error Acknowledgement",
+        "func": "msg.payload = \"Transfer aborted. Database is empty.\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 360,
+        "wires": [
+            [
+                "74f8909b87961f31"
+            ]
+        ]
+    },
+    {
+        "id": "7433b316dd579845",
+        "type": "debug",
+        "z": "2bda75e7f2f7a442",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2170,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "cc07170a17f5b65a",
+        "type": "http request",
+        "z": "2bda75e7f2f7a442",
+        "name": "",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1990,
+        "y": 560,
+        "wires": [
+            [
+                "478cd335543ae261",
+                "7433b316dd579845"
+            ]
+        ]
+    },
+    {
+        "id": "478cd335543ae261",
+        "type": "http response",
+        "z": "2bda75e7f2f7a442",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 2170,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "5c51ad0fe089f74a",
+        "type": "function",
+        "z": "2bda75e7f2f7a442",
+        "name": "Device Command",
+        "func": "msg.url = \"https://www.voodoodevices.com/api/device/DD8F5D:B775CB/\";\nmsg.method = \"POST\";\nmsg.headers = {\n    \"Content-Type\": \"application/json\",\n    \"Accept\": \"*/*\",\n    \"Referer\": \"https://www.voodoodevices.com/\",\n    \"x-csrf-token\": msg.payload.root.token,\n    \"Cookie\": \"csrftoken=\"+msg.payload.root.token[0]+\"; sessionid=\"+msg.payload.root.sessid[0]\n};\nvar data = msg.topic.split(',');\nmsg.payload = {\n    \"command\": \"flash\",\n    \"seconds\": \"6\",\n   // \"sound\": \"15,c5,4\",\n    \"line1\": data[0],\n    \"line2\": data[1],\n    \"line3\": data[2],\n    \n   //\"statica\": \"Hello\",\n   //\"staticb\": \"There2\",\n   //\"staticc\": \"\\\\ictop\",\n   //\"staticd\": \"\\\\qrmyspecialcode\"\n};\nmsg.topic='';\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1790,
+        "y": 560,
+        "wires": [
+            [
+                "cc07170a17f5b65a"
+            ]
+        ]
+    },
+    {
+        "id": "983782d2e4a657d3",
+        "type": "debug",
+        "z": "2bda75e7f2f7a442",
+        "name": "debug 11",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "topic",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1780,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "273bed19136c0567",
+        "type": "xml",
+        "z": "2bda75e7f2f7a442",
+        "name": "Parse XML",
+        "property": "payload",
+        "attr": "",
+        "chr": "",
+        "x": 1590,
+        "y": 560,
+        "wires": [
+            [
+                "5c51ad0fe089f74a",
+                "983782d2e4a657d3"
+            ]
+        ]
+    },
+    {
+        "id": "802676d4913cbfa8",
+        "type": "http request",
+        "z": "2bda75e7f2f7a442",
+        "name": "",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1410,
+        "y": 560,
+        "wires": [
+            [
+                "273bed19136c0567"
+            ]
+        ]
+    },
+    {
+        "id": "952e3a7f7e48611e",
+        "type": "function",
+        "z": "2bda75e7f2f7a442",
+        "name": "Login Function",
+        "func": "msg.url = \"https://www.voodoodevices.com/api/user/login/\";\nmsg.method = \"POST\";\nmsg.headers = {\n    \"content-type\": \"application/xml\",\n    \"accept\": \"application/xml\"\n};\nmsg.payload = `\n<item>\n  <username>girish.b@cartesiankinetics.com</username>\n  <password>Spirit1.heart</password>\n</item>\n`;\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1220,
+        "y": 560,
+        "wires": [
+            [
+                "802676d4913cbfa8"
+            ]
+        ]
+    },
+    {
+        "id": "7af404794f095505",
+        "type": "function",
+        "z": "2bda75e7f2f7a442",
+        "name": "Data transfer",
+        "func": "var data = msg.payload.split(',');\nmsg.topic = data[1] + ',' + data[2] + ',' + data[3];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1030,
+        "y": 560,
+        "wires": [
+            [
+                "952e3a7f7e48611e"
+            ]
+        ]
+    },
+    {
+        "id": "af909fd6d7006cdb",
+        "type": "function",
+        "z": "2bda75e7f2f7a442",
+        "name": "Build Query",
+        "func": "msg.topic = \"DELETE FROM ptl\\nWHERE ROWID = (SELECT ROWID FROM ptl\\nLIMIT 1);\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1290,
+        "y": 500,
+        "wires": [
+            [
+                "ba3796b3e957b525"
+            ]
+        ]
+    },
+    {
+        "id": "ba3796b3e957b525",
+        "type": "sqlite",
+        "z": "2bda75e7f2f7a442",
+        "mydb": "3d78b677.5d2c8a",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Delete",
+        "x": 1450,
+        "y": 500,
+        "wires": [
+            []
         ]
     }
 ]
