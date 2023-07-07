@@ -229,7 +229,7 @@
         "sqlquery": "msg.topic",
         "sql": "",
         "name": "Insert Database",
-        "x": 740,
+        "x": 760,
         "y": 800,
         "wires": [
             [
