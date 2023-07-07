@@ -310,7 +310,7 @@
         "y": 980,
         "wires": [
             [
-                "cb764e2143b2cb29"
+                "6e2133802b2fc9f7"
             ]
         ]
     },
@@ -354,18 +354,80 @@
         ]
     },
     {
-        "id": "cb764e2143b2cb29",
+        "id": "6e2133802b2fc9f7",
+        "type": "csv",
+        "z": "0da6ddbdcfa7458f",
+        "name": "CSV",
+        "sep": ",",
+        "hdrin": false,
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": false,
+        "include_null_values": false,
+        "x": 670,
+        "y": 980,
+        "wires": [
+            [
+                "69f414ed8b74500c"
+            ]
+        ]
+    },
+    {
+        "id": "69f414ed8b74500c",
+        "type": "file",
+        "z": "0da6ddbdcfa7458f",
+        "name": "Write to CSV",
+        "filename": "C:\\Datalog\\CSVfile.csv",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "utf8",
+        "x": 825,
+        "y": 980,
+        "wires": [
+            [
+                "80be837764525128"
+            ]
+        ]
+    },
+    {
+        "id": "80be837764525128",
+        "type": "function",
+        "z": "0da6ddbdcfa7458f",
+        "name": "Send Acknowledgement",
+        "func": "msg.payload = \"Transfer completed. Row data has been transferred to the CSV file.\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 980,
+        "wires": [
+            [
+                "9967f094d5ef8554"
+            ]
+        ]
+    },
+    {
+        "id": "9967f094d5ef8554",
         "type": "debug",
         "z": "0da6ddbdcfa7458f",
-        "name": "debug 15",
-        "active": true,
+        "name": "Acknowledgement",
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 680,
+        "x": 1310,
         "y": 980,
         "wires": []
     }
